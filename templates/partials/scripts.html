@@ -1,0 +1,30 @@
+{% load static %}
+
+<!-- templates/partials/scripts.html -->
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+<!-- Page level plugins: DataTables -->
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Page level custom scripts -->
+<!-- Thêm cấu hình DataTables, ví dụ lengthMenu -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  // Tìm tất cả table có class .datatable và bật DataTables
+  $('.datatable').DataTable({
+    "lengthMenu": [[10, 20, 50, 100, 500, 9999], [10, 20, 50, 100, 500, "All"]],
+    // "All" ~ 9999
+    // Tùy ý config cột, sorting, language...
+  });
+});
+</script>

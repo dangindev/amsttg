@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Quản lý tài sản</title>
+  <!-- Fonts & Core CSS (SB Admin 2) -->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+  <!-- DataTables CSS -->
+  <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+</head>
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    {% include 'partials/sidebar.html' %}
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        {% include 'partials/header.html' %}
+        <div class="container-fluid">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+      {% include 'partials/footer.html' %}
+    </div>
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Include scripts partial -->
+  {% include 'partials/scripts.html' %}
+
+</body>
+</html>

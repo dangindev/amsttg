@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Dữ liệu hợp lệ</h1>
+
+<p><strong>File:</strong> {{ file_path }}</p>
+<p><strong>Số dòng:</strong> {{ line_count }}</p>
+<p><strong>Header:</strong> {{ header|join:", " }}</p>
+
+<a href="{% url 'import_start' %}?file_path={{ file_path }}" class="btn btn-success">
+  Bắt đầu Import
+</a>
+<a href="{% url 'import_upload' %}" class="btn btn-secondary">Hủy</a>
+{% endblock %}

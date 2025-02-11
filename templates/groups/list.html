@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Group List</h1>
+
+<!-- Nút Create Group -->
+{% if perms.auth.add_group %}
+<a href="{% url 'group_create' %}" class="btn btn-primary mb-3">Create Group</a>
+{% endif %}
+
+<!-- Bảng danh sách Group -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Groups Table</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered datatable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for group in groups %}
+          <tr>
+            <td>{{ group.name }}</td>
+            <td>
+              {% if perms.auth.change_group %}
+              <a href="{% url 'group_edit' group.id %}" class="btn btn-sm btn-primary">Edit</a>
+              {% endif %}
+
+              {% if perms.auth.delete_group %}
+              <button class="btn btn-sm btn-danger delete-btn"
+                      data-toggle="modal" data-target="#deleteModal"
+                      data-groupid="{{ group.id }}" data-groupname="{{ group.name }}">
+                Delete
+              </button>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Nhúng modal confirm delete -->
+{% include 'groups/delete_confirm.html' %}
+{% endblock %}

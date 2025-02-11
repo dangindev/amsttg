@@ -1,0 +1,3 @@
+# Không đưa thư mục history và cài đặt của VS Code lên Git
+.history/
+.vscode/

@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Đang Import CSV</h1>
+
+<div id="progressContainer">
+  <div class="progress mb-3">
+    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;">
+      0%
+    </div>
+  </div>
+  <p id="progressText">Đang xử lý...</p>
+</div>
+
+<!-- Nút Trở về, ẩn ban đầu -->
+<a href="{% url 'asset_list' %}" class="btn btn-secondary mt-3" id="backButton" style="display: none;">Trở về</a>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+  const backButton = document.getElementById('backButton');
+  // Lấy task_id từ biến template, đã được truyền từ view
+  const taskId = "{{ task_id }}";
+  // Xây dựng URL mẫu với placeholder __TASK_ID__
+  const progressStatusUrlTemplate = "{% url 'import_progress_status' task_id='__TASK_ID__' %}";
+
+  function checkProgress(){
+    // Thay placeholder bằng taskId thực tế
+    const progressStatusUrl = progressStatusUrlTemplate.replace('__TASK_ID__', taskId);
+    fetch(progressStatusUrl)
+      .then(res => res.json())
+      .then(data => {
+        if(data.state === 'PROGRESS'){
+          let current = data.current || 0;
+          let total = data.total || 0;
+          let percent = total > 0 ? (current * 100 / total) : 0;
+          progressBar.style.width = percent + '%';
+          progressBar.textContent = Math.floor(percent) + '%';
+          progressText.textContent = `Đã xử lý: ${current}/${total}`;
+          setTimeout(checkProgress, 1000);
+        } else if(data.state === 'SUCCESS'){
+          progressBar.style.width = '100%';
+          progressBar.textContent = '100%';
+          progressText.textContent = 'Hoàn tất Import!';
+          // Sau 2 giây, fade out progress và hiển thị nút "Trở về"
+          setTimeout(() => {
+            document.getElementById('progressContainer').style.opacity = 0;
+            setTimeout(() => {
+              backButton.style.display = "inline-block";
+            }, 1000);
+          }, 2000);
+        } else if(data.state === 'FAILURE'){
+          progressBar.classList.remove("progress-bar-animated");
+          progressBar.classList.add("bg-danger");
+          progressText.textContent = 'Import LỖI: ' + data.info;
+          backButton.style.display = "inline-block";
+        } else {
+          progressText.textContent = 'Trạng thái: ' + data.state;
+          setTimeout(checkProgress, 1000);
+        }
+      })
+      .catch(err => {
+        progressText.textContent = 'Lỗi poll: ' + err;
+        setTimeout(checkProgress, 2000);
+      });
+  }
+  checkProgress();
+});
+</script>
+{% endblock %}

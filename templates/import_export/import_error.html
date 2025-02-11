@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Lỗi import</h1>
+<div class="alert alert-danger">
+  <ul>
+    {% for e in error_list %}
+      <li>{{ e }}</li>
+    {% endfor %}
+  </ul>
+</div>
+<a href="{% url 'asset_list' %}" class="btn btn-secondary">Quay lại danh sách</a>
+{% endblock %}

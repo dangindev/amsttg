@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Create Asset</h1>
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="id_name">Name</label>
+    <input type="text" class="form-control" id="id_name" name="name" required>
+  </div>
+  <div class="form-group">
+    <label for="id_code">Code</label>
+    <input type="text" class="form-control" id="id_code" name="code" required>
+  </div>
+  <div class="form-group">
+    <label for="id_description">Description</label>
+    <textarea class="form-control" id="id_description" name="description"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+  <a href="{% url 'asset_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Map cột CSV</h1>
+
+<form method="POST" action="{% url 'mapping_confirm' %}">
+  {% csrf_token %}
+  <input type="hidden" name="file_path" value="{{ file_path }}">
+
+  <table class="table table-bordered">
+    <thead>
+      <tr><th>Index</th><th>CSV Header</th></tr>
+    </thead>
+    <tbody>
+      {% for col in columns %}
+      <tr>
+        <td>{{ col.index }}</td>
+        <td>{{ col.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="form-group">
+    <label>Cột cho name:</label>
+    <input type="number" name="name_col" required class="form-control" placeholder="VD: 0">
+  </div>
+  <div class="form-group">
+    <label>Cột cho code:</label>
+    <input type="number" name="code_col" required class="form-control" placeholder="VD: 1">
+  </div>
+  <div class="form-group">
+    <label>Cột cho description (optional):</label>
+    <input type="number" name="desc_col" class="form-control" placeholder="VD: 2">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Xác nhận</button>
+</form>
+{% endblock %}

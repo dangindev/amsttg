@@ -1,0 +1,93 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">
+  {% if user %}Edit User{% else %}Create User{% endif %}
+</h1>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+
+  <fieldset class="module aligned wide">
+    <div class="form-group">
+      <label class="required" for="id_username">Username:</label>
+      {{ form.username }}
+      {% if form.username.errors %}
+        <div class="alert alert-danger">{{ form.username.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label class="required" for="id_email">Email:</label>
+      {{ form.email }}
+      {% if form.email.errors %}
+        <div class="alert alert-danger">{{ form.email.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="id_first_name">First Name:</label>
+      {{ form.first_name }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_last_name">Last Name:</label>
+      {{ form.last_name }}
+    </div>
+
+    <!-- Trường mật khẩu chỉ hiển thị, không chỉnh sửa -->
+    <div class="form-group">
+      <label>Password:</label>
+      {{ form.password }}
+      <p><a class="btn btn-warning" href="{% url 'admin:auth_user_password_change' user.id %}">Reset password</a></p>
+    </div>
+
+    <!-- Quyền của user -->
+    <div class="form-group">
+      <label for="id_is_active">Active:</label>
+      {{ form.is_active }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_is_staff">Staff Status:</label>
+      {{ form.is_staff }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_is_superuser">Superuser Status:</label>
+      {{ form.is_superuser }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_groups">Groups:</label>
+      {{ form.groups }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_user_permissions">User Permissions:</label>
+      {{ form.user_permissions }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_last_login">Last Login:</label>
+      {{ form.last_login }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_date_joined">Date Joined:</label>
+      {{ form.date_joined }}
+    </div>
+  </fieldset>
+
+  <div class="submit-row">
+    <input type="submit" value="Save" class="btn btn-primary">
+    <a href="{% url 'user_list' %}" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
+
+{% endblock %}

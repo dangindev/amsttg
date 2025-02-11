@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Import Tài sản</h1>
+<form method="post" enctype="multipart/form-data" action="">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="fileInput">Chọn file CSV</label>
+    <input type="file" class="form-control-file" name="file" id="fileInput" accept=".csv" required>
+  </div>
+  <button type="submit" class="btn btn-info">Import CSV</button>
+  <a href="{% url 'asset_list' %}" class="btn btn-secondary">Quay lại</a>
+</form>
+{% endblock %}

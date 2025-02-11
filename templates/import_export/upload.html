@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Upload CSV</h1>
+
+<form method="POST" enctype="multipart/form-data" action="">
+  {% csrf_token %}
+  <div class="form-group">
+    <label>Chọn file CSV</label>
+    <input type="file" name="file" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Parse Header</button>
+</form>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1 class="h3 mb-4 text-gray-800">Danh sách tài sản (DataTables)</h1>
+
+<!-- Nút Import CSV (Chỉ hiển thị nếu có quyền add tài sản) -->
+{% if perms.assets.add_asset %}
+<button class="btn btn-info mb-3" data-toggle="modal" data-target="#importModal">Import CSV</button>
+{% endif %}
+
+<!-- Nút Export CSV (Chỉ hiển thị nếu có quyền view tài sản) -->
+{% if perms.assets.view_asset %}
+<button class="btn btn-warning mb-3" data-toggle="modal" data-target="#exportModal">Export CSV</button>
+{% endif %}
+
+<!-- Nút Tạo tài sản mới -->
+{% if perms.assets.add_asset %}
+<a href="{% url 'asset_create' %}" class="btn btn-primary mb-3 float-right">Tạo tài sản</a>
+{% endif %}
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Assets Table</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered datatable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Tên</th>
+            <th>Mã code</th>
+            <th>Mô tả</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for asset in assets %}
+          <tr>
+            <td>
+              {% if perms.assets.view_asset %}
+              <a href="{% url 'asset_edit' asset.pk %}">{{ asset.name }}</a>
+              {% else %}
+              {{ asset.name }}
+              {% endif %}
+            </td>
+            <td>{{ asset.code }}</td>
+            <td>{{ asset.description }}</td>
+            <td>
+              {% if perms.assets.change_asset %}
+              <a href="{% url 'asset_edit' asset.pk %}" class="btn btn-success btn-sm">Edit</a>
+              {% endif %}
+              
+              {% if perms.assets.delete_asset %}
+              <button class="btn btn-danger btn-sm"
+                      data-toggle="modal" data-target="#deleteModal"
+                      data-pk="{{ asset.pk }}"
+                      data-name="{{ asset.name }}">
+                Xóa
+              </button>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal confirm xóa -->
+{% include 'assets/delete_confirm.html' %}
+
+<!-- Modal Import CSV (Chỉ hiển thị nếu có quyền add tài sản) -->
+{% if perms.assets.add_asset %}
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="POST" action="{% url 'upload_csv' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Import Tài sản (CSV)</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% if messages %}
+            {% for msg in messages %}
+              <div class="alert alert-{{ msg.tags }}">{{ msg }}</div>
+            {% endfor %}
+          {% endif %}
+          <div class="form-group">
+            <label for="fileInput">Chọn file CSV</label>
+            <input type="file" class="form-control-file" name="file" id="fileInput" accept=".csv" required>
+          </div>
+          <p class="mt-2 text-muted">
+            Định dạng CSV: dòng đầu header (name,code,description, v.v.).
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-info">Xác nhận import</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- Modal Export CSV (Chỉ hiển thị nếu có quyền view tài sản) -->
+{% if perms.assets.view_asset %}
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="GET" action="{% url 'asset_export' %}">
+        <div class="modal-header">
+          <h5 class="modal-title">Export Tài sản (CSV)</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Chọn cột muốn export:</p>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="columns" value="name" id="colName" checked>
+            <label class="form-check-label" for="colName">Tên</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="columns" value="code" id="colCode" checked>
+            <label class="form-check-label" for="colCode">Mã code</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="columns" value="description" id="colDesc" checked>
+            <label class="form-check-label" for="colDesc">Mô tả</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="columns" value="created_at" id="colCreated">
+            <label class="form-check-label" for="colCreated">Ngày tạo</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="columns" value="updated_at" id="colUpdated">
+            <label class="form-check-label" for="colUpdated">Ngày sửa</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-warning">Xác nhận export</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

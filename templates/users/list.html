@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">User List</h1>
+
+<!-- Nút Create User (Chỉ hiển thị nếu có quyền) -->
+{% if perms.auth.add_user %}
+<a href="{% url 'user_create' %}" class="btn btn-primary mb-3">Create User</a>
+{% endif %}
+
+<!-- Bảng danh sách User -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Users Table</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered datatable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Full Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td>
+              {% if perms.auth.change_user %}
+              <a href="{% url 'user_edit' user.id %}" class="btn btn-sm btn-primary">Edit</a>
+              {% endif %}
+
+              {% if perms.auth.delete_user and not user.is_superuser %}
+              <button class="btn btn-sm btn-danger delete-btn"
+                      data-toggle="modal" data-target="#deleteModal"
+                      data-userid="{{ user.id }}" data-username="{{ user.username }}">
+                Delete
+              </button>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Nhúng modal confirm delete -->
+{% include 'users/delete_confirm.html' %}
+{% endblock %}

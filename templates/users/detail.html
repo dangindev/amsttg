@@ -1,0 +1,11 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">User Detail</h1>
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Full Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+<p><strong>Staff:</strong> {{ user.is_staff }}</p>
+<p><strong>Active:</strong> {{ user.is_active }}</p>
+<a href="{% url 'user_edit' user.id %}" class="btn btn-primary">Edit</a>
+<a href="{% url 'user_list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}

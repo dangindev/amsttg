@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Asset Detail</h1>
+<div class="card">
+  <div class="card-body">
+    <p><strong>Name:</strong> {{ asset.name }}</p>
+    <p><strong>Code:</strong> {{ asset.code }}</p>
+    <p><strong>Description:</strong> {{ asset.description }}</p>
+    <p><strong>Created:</strong> {{ asset.created_at }}</p>
+    <p><strong>Updated:</strong> {{ asset.updated_at }}</p>
+    <a href="{% url 'asset_list' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+</div>
+{% endblock %}

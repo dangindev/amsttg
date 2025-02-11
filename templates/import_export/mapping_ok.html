@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Kiểm tra xong - Không lỗi</h1>
+<form method="POST" action="{% url 'import_start' %}">
+  {% csrf_token %}
+  <input type="hidden" name="file_path" value="{{ file_path }}">
+  <input type="hidden" name="name_col" value="{{ name_col }}">
+  <input type="hidden" name="code_col" value="{{ code_col }}">
+  <input type="hidden" name="desc_col" value="{{ desc_col }}">
+  <button type="submit" class="btn btn-success">Bắt đầu Import</button>
+</form>
+{% endblock %}

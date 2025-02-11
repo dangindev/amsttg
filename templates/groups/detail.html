@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Group Detail</h1>
+<div class="card">
+  <div class="card-body">
+    <p><strong>Name:</strong> {{ group.name }}</p>
+    <p><strong>Permissions:</strong>
+      {% for perm in group.permissions.all %}
+      <span class="badge badge-info">{{ perm.codename }}</span>
+      {% endfor %}
+    </p>
+    <a href="{% url 'group_list' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+</div>
+{% endblock %}
