@@ -20,6 +20,10 @@
             <th>Username</th>
             <th>Email</th>
             <th>Full Name</th>
+            <th>Department</th>
+            <th>Phone Number</th>
+            <th>Title</th>
+            <th>Manager</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -29,6 +33,18 @@
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td>
+              {% if user.userprofile.department %}
+                {{ user.userprofile.department.name }}
+              {% endif %}
+            </td>
+            <td>{{ user.userprofile.phone_number }}</td>
+            <td>{{ user.userprofile.title }}</td>
+            <td>
+              {% if user.userprofile.manager %}
+                {{ user.userprofile.manager.user.username }}
+              {% endif %}
+            </td>
             <td>
               {% if perms.auth.change_user %}
               <a href="{% url 'user_edit' user.id %}" class="btn btn-sm btn-primary">Edit</a>

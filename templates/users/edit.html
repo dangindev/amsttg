@@ -17,83 +17,116 @@
 
   <fieldset class="module aligned wide">
     <div class="form-group">
-      <label class="required" for="id_username">Username:</label>
-      {{ form.username }}
+      <label class="required" for="{{ form.username.id_for_label }}">Username:</label>
+      {{ form.username|add_class:"form-control" }}
       {% if form.username.errors %}
-        <div class="alert alert-danger">{{ form.username.errors }}</div>
+        <div class="invalid-feedback d-block">
+          {{ form.username.errors }}
+        </div>
       {% endif %}
     </div>
 
     <div class="form-group">
-      <label class="required" for="id_email">Email:</label>
-      {{ form.email }}
+      <label class="required" for="{{ form.email.id_for_label }}">Email:</label>
+      {{ form.email|add_class:"form-control" }}
       {% if form.email.errors %}
-        <div class="alert alert-danger">{{ form.email.errors }}</div>
+        <div class="invalid-feedback d-block">
+          {{ form.email.errors }}
+        </div>
       {% endif %}
     </div>
 
     <div class="form-group">
-      <label for="id_first_name">First Name:</label>
-      {{ form.first_name }}
+      <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+      {{ form.first_name|add_class:"form-control" }}
     </div>
 
     <div class="form-group">
-      <label for="id_last_name">Last Name:</label>
-      {{ form.last_name }}
+      <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+      {{ form.last_name|add_class:"form-control" }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.department.id_for_label }}">Department:</label>
+      {{ form.department|add_class:"form-control select2" }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.phone_number.id_for_label }}">Phone Number:</label>
+      {{ form.phone_number|add_class:"form-control" }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.old_employee_code.id_for_label }}">Old Employee Code:</label>
+      {{ form.old_employee_code|add_class:"form-control" }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.title.id_for_label }}">Title:</label>
+      {{ form.title|add_class:"form-control" }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.manager.id_for_label }}">Manager:</label>
+      {{ form.manager|add_class:"form-control select2" }}
     </div>
 
     <!-- Trường mật khẩu chỉ hiển thị, không chỉnh sửa -->
     <div class="form-group">
       <label>Password:</label>
       {% if user %}
-      {{ form.password }}
+      {{ form.password|add_class:"form-control" }}
       <p><a class="btn btn-warning" href="{% url 'admin:auth_user_password_change' user.id %}">Reset password</a></p>
       {% else %}
-      {{ form.new_password }}
+      {{ form.new_password|add_class:"form-control" }}
       {% if form.new_password.errors %}
-        <div class="alert alert-danger">{{ form.new_password.errors }}</div>
+        <div class="invalid-feedback d-block">
+          {{ form.new_password.errors }}
+        </div>
       {% endif %}
-      {{ form.confirm_password }}
+      {{ form.confirm_password|add_class:"form-control" }}
       {% if form.confirm_password.errors %}
-        <div class="alert alert-danger">{{ form.confirm_password.errors }}</div>
+        <div class="invalid-feedback d-block">
+          {{ form.confirm_password.errors }}
+        </div>
       {% endif %}
       {% endif %}
     </div>
 
     <!-- Quyền của user -->
     <div class="form-group">
-      <label for="id_is_active">Active:</label>
-      {{ form.is_active }}
+      <label for="{{ form.is_active.id_for_label }}">Active:</label>
+      {{ form.is_active|add_class:"form-control" }}
     </div>
 
     <div class="form-group">
-      <label for="id_is_staff">Staff Status:</label>
-      {{ form.is_staff }}
+      <label for="{{ form.is_staff.id_for_label }}">Staff Status:</label>
+      {{ form.is_staff|add_class:"form-control" }}
     </div>
 
     <div class="form-group">
-      <label for="id_is_superuser">Superuser Status:</label>
-      {{ form.is_superuser }}
+      <label for="{{ form.is_superuser.id_for_label }}">Superuser Status:</label>
+      {{ form.is_superuser|add_class:"form-control" }}
     </div>
 
     <div class="form-group">
-      <label for="id_groups">Groups:</label>
-      {{ form.groups }}
+      <label for="{{ form.groups.id_for_label }}">Groups:</label>
+      {{ form.groups|add_class:"form-control select2" }}
     </div>
 
     <div class="form-group">
-      <label for="id_user_permissions">User Permissions:</label>
-      {{ form.user_permissions }}
+      <label for="{{ form.user_permissions.id_for_label }}">User Permissions:</label>
+      {{ form.user_permissions|add_class:"form-control select2" }}
     </div>
 
     <div class="form-group">
-      <label for="id_last_login">Last Login:</label>
-      {{ form.last_login }}
+      <label for="{{ form.last_login.id_for_label }}">Last Login:</label>
+      {{ form.last_login|add_class:"form-control" }}
     </div>
 
     <div class="form-group">
-      <label for="id_date_joined">Date Joined:</label>
-      {{ form.date_joined }}
+      <label for="{{ form.date_joined.id_for_label }}">Date Joined:</label>
+      {{ form.date_joined|add_class:"form-control" }}
     </div>
   </fieldset>
 
@@ -103,4 +136,15 @@
   </div>
 </form>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Select options",
+            allowClear: true
+        });
+    });
+</script>
 {% endblock %}
