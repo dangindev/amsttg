@@ -1,0 +1,83 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">
+        {% if object %}Edit Department{% else %}Add New Department{% endif %}
+    </h1>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Department Name</label>
+                    {{ form.name|add_class:"form-control" }}
+                    {% if form.name.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.name.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.company.id_for_label }}">Company</label>
+                    {{ form.company|add_class:"form-control select2" }}
+                    {% if form.company.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.company.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.manager.id_for_label }}">Manager</label>
+                    {{ form.manager|add_class:"form-control select2" }}
+                    {% if form.manager.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.manager.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.location.id_for_label }}">Location</label>
+                    {{ form.location|add_class:"form-control" }}
+                    {% if form.location.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.location.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.notes.id_for_label }}">Notes</label>
+                    {{ form.notes|add_class:"form-control" }}
+                    {% if form.notes.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.notes.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <a href="{% url 'department_list' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Select an option",
+            allowClear: true
+        });
+    });
+</script>
+{% endblock %}

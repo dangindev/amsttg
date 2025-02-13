@@ -55,6 +55,26 @@
     </li>
     {% endif %}
   
+    <!-- Quản lý Công ty -->
+    {% if perms.companies.view_company %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'company_list' %}">
+        <i class="fas fa-building"></i>
+        <span>Công ty</span>
+      </a>
+    </li>
+    {% endif %}
+
+    <!-- Quản lý Phòng Ban -->
+    {% if perms.departments.view_department %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'department_list' %}">
+        <i class="fas fa-sitemap"></i>
+        <span>Phòng Ban</span>
+      </a>
+    </li>
+    {% endif %}
+  
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
   

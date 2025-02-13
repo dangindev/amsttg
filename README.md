@@ -72,6 +72,8 @@ asset_management/
 ├── config/             # Django project settings, URLs, WSGI/ASGI, celery.py, etc.
 ├── dashboard/          # Dashboard application (statistics, navigation, etc.)
 ├── assets/             # Asset management app (models, views, serializers, tests)
+├── users/              # User management
+├── groups/             # Group management
 ├── import_export/      # CSV import/export app (views, tasks, utils, tests)
 ├── templates/          # HTML templates (base, partials, dashboard, assets, import_export, users, groups, etc.)
 ├── static/             # Static files (CSS, JS, SB Admin 2, vendor libraries)

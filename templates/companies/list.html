@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Company List</h1>
+
+<!-- Nút Create Company -->
+<a href="{% url 'company_create' %}" class="btn btn-primary mb-3">Create Company</a>
+
+<!-- Bảng danh sách Company -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Companies Table</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered datatable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Parent Company</th>
+            <th>Address</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for company in companies %}
+          <tr>
+            <td>{{ company.name }}</td>
+            <td>{{ company.parent.name|default:"-" }}</td>
+            <td>{{ company.address }}</td>
+            <td>
+              <a href="{% url 'company_edit' company.pk %}" class="btn btn-sm btn-primary">Edit</a>
+              <button class="btn btn-sm btn-danger delete-btn"
+                      data-toggle="modal" data-target="#deleteModal"
+                      data-companyid="{{ company.pk }}" data-companyname="{{ company.name }}">
+                Delete
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Nhúng modal confirm delete -->
+{% include 'companies/delete_confirm.html' %}
+{% endblock %}

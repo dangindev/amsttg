@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Company Detail</h1>
+<div class="card">
+  <div class="card-body">
+    <p><strong>Name:</strong> {{ company.name }}</p>
+    <p><strong>Parent Company:</strong> {{ company.parent.name|default:"-" }}</p>
+    <p><strong>Address:</strong> {{ company.address }}</p>
+    <p><strong>Notes:</strong> {{ company.notes }}</p>
+    <a href="{% url 'company_list' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+</div>
+{% endblock %}

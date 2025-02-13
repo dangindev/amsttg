@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% load widget_tweaks %}
+
 {% block content %}
 <h1 class="h3 mb-4 text-gray-800">
   {% if user %}Edit User{% else %}Create User{% endif %}
@@ -43,8 +45,19 @@
     <!-- Trường mật khẩu chỉ hiển thị, không chỉnh sửa -->
     <div class="form-group">
       <label>Password:</label>
+      {% if user %}
       {{ form.password }}
       <p><a class="btn btn-warning" href="{% url 'admin:auth_user_password_change' user.id %}">Reset password</a></p>
+      {% else %}
+      {{ form.new_password }}
+      {% if form.new_password.errors %}
+        <div class="alert alert-danger">{{ form.new_password.errors }}</div>
+      {% endif %}
+      {{ form.confirm_password }}
+      {% if form.confirm_password.errors %}
+        <div class="alert alert-danger">{{ form.confirm_password.errors }}</div>
+      {% endif %}
+      {% endif %}
     </div>
 
     <!-- Quyền của user -->

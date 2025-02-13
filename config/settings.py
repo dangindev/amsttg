@@ -38,12 +38,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Apps cài thêm
+    'widget_tweaks',
     'rest_framework',      
     'dashboard',
     'assets',
     'import_export',
     'users',
     'groups',
+    'companies',
+    'departments',
 ]
 
 MIDDLEWARE = [

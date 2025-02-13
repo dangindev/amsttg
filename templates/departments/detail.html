@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Department Detail</h1>
+<div class="card">
+  <div class="card-body">
+    <p><strong>Name:</strong> {{ department.name }}</p>
+    <p><strong>Company:</strong> {{ department.company.name }}</p>
+    <p><strong>Manager:</strong> {{ department.manager.get_full_name|default:department.manager.username }}</p>
+    <p><strong>Location:</strong> {{ department.location }}</p>
+    <p><strong>Notes:</strong> {{ department.notes }}</p>
+    <a href="{% url 'department_list' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+</div>
+{% endblock %}
