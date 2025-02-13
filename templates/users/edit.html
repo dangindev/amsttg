@@ -71,7 +71,22 @@
       {{ form.manager|add_class:"form-control select2" }}
     </div>
 
-    <!-- Trường mật khẩu chỉ hiển thị, không chỉnh sửa -->
+    <!-- Mã nhân viên -->
+    <div class="form-group">
+      <label for="{{ form.employee_code.id_for_label }}">Employee Code:</label>
+      {{ form.employee_code|add_class:"form-control" }}
+    </div>
+
+    <!-- is_ldap_user (nếu bạn muốn cho chỉnh) -->
+    <div class="form-group">
+      <label for="{{ form.is_ldap_user.id_for_label }}">Source (LDAP?):</label>
+      {{ form.is_ldap_user|add_class:"form-control" }}
+      <small class="form-text text-muted">
+        If checked, this user is recognized as LDAP-based.
+      </small>
+    </div>
+
+    <!-- Trường mật khẩu chỉ hiển thị, không chỉnh sửa, ... -->
     <div class="form-group">
       <label>Password:</label>
       {% if user %}
@@ -135,7 +150,6 @@
     <a href="{% url 'user_list' %}" class="btn btn-secondary">Cancel</a>
   </div>
 </form>
-
 {% endblock %}
 
 {% block extra_js %}

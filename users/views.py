@@ -32,16 +32,19 @@ def user_form_view(request, user_id=None):
                 user.save()
                 form.save_m2m()  # Save groups and permissions
 
-                # Now handle UserProfile
+                # Now handle UserProfile again
                 profile_data = {
                     'department': form.cleaned_data.get('department'),
                     'phone_number': form.cleaned_data.get('phone_number'),
                     'old_employee_code': form.cleaned_data.get('old_employee_code'),
                     'title': form.cleaned_data.get('title'),
-                    'manager': form.cleaned_data.get('manager')
+                    'manager': form.cleaned_data.get('manager'),
+
+                    # Mới
+                    'employee_code': form.cleaned_data.get('employee_code'),
+                    'is_ldap_user': form.cleaned_data.get('is_ldap_user'),
                 }
 
-                # Update or create UserProfile
                 user_profile, created = UserProfile.objects.update_or_create(
                     user=user,
                     defaults=profile_data
@@ -68,11 +71,18 @@ def user_form_view(request, user_id=None):
                 'phone_number': user_profile.phone_number,
                 'old_employee_code': user_profile.old_employee_code,
                 'title': user_profile.title,
-                'manager': user_profile.manager
+                'manager': user_profile.manager,
+
+                # Mới
+                'employee_code': user_profile.employee_code,
+                'is_ldap_user': user_profile.is_ldap_user,
             }
         form = UserForm(instance=user_obj, initial=initial_data)
 
-    return render(request, 'users/edit.html', {'form': form, 'user': user_obj})
+    return render(request, 'users/edit.html', {
+        'form': form,
+        'user': user_obj
+    })
 
 @login_required
 def user_list_view(request):

@@ -24,6 +24,8 @@
             <th>Phone Number</th>
             <th>Title</th>
             <th>Manager</th>
+            <th>Emp. Code</th>  <!-- Mã nhân viên -->
+            <th>Source</th>     <!-- LDAP/System -->
             <th>Actions</th>
           </tr>
         </thead>
@@ -43,6 +45,16 @@
             <td>
               {% if user.userprofile.manager %}
                 {{ user.userprofile.manager.user.username }}
+              {% endif %}
+            </td>
+            <!-- Hiển thị employee_code -->
+            <td>{{ user.userprofile.employee_code }}</td>
+            <!-- Hiển thị source (LDAP/System) -->
+            <td>
+              {% if user.userprofile.is_ldap_user %}
+                LDAP
+              {% else %}
+                System
               {% endif %}
             </td>
             <td>

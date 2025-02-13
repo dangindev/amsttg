@@ -33,6 +33,20 @@ class UserForm(UserChangeForm):
         widget=forms.Select(attrs={'class': 'form-control select2'})
     )
 
+    # NEW FIELD: employee_code
+    employee_code = forms.CharField(
+        required=False,
+        label="Employee Code",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    # NEW FIELD: is_ldap_user
+    is_ldap_user = forms.BooleanField(
+        required=False,
+        label="LDAP User?",
+        help_text="If checked, this user is recognized as LDAP-based."
+    )
+
     # Password fields
     password = forms.CharField(
         label="Password",
@@ -43,14 +57,12 @@ class UserForm(UserChangeForm):
         help_text="Raw passwords are not stored, so there is no way to see this user's password.",
         required=False
     )
-
     new_password = forms.CharField(
         label="New Password",
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         required=False,
         help_text="Set a password for the new user."
     )
-
     confirm_password = forms.CharField(
         label="Confirm Password",
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
@@ -65,7 +77,6 @@ class UserForm(UserChangeForm):
         required=False,
         help_text="The groups this user belongs to. Hold down 'Control', or 'Command' on a Mac, to select more than one."
     )
-
     user_permissions = forms.ModelMultipleChoiceField(
         queryset=Permission.objects.all(),
         widget=forms.SelectMultiple(attrs={'class': 'form-control select2'}),
@@ -80,7 +91,11 @@ class UserForm(UserChangeForm):
             'password', 'new_password', 'confirm_password', 
             'is_active', 'is_staff', 'is_superuser', 
             'groups', 'user_permissions', 'last_login', 'date_joined', 
-            'department', 'phone_number', 'old_employee_code', 'title', 'manager'
+            'department', 'phone_number', 'old_employee_code', 'title', 'manager',
+
+            # NEW FIELD: add them in Meta.fields
+            'employee_code',
+            'is_ldap_user',
         ]
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
@@ -111,12 +126,17 @@ class UserForm(UserChangeForm):
 
         # Load initial UserProfile data if exists
         if self.instance and hasattr(self.instance, 'userprofile'):
+            up = self.instance.userprofile
             self.initial.update({
-                'department': self.instance.userprofile.department,
-                'phone_number': self.instance.userprofile.phone_number,
-                'old_employee_code': self.instance.userprofile.old_employee_code,
-                'title': self.instance.userprofile.title,
-                'manager': self.instance.userprofile.manager
+                'department': up.department,
+                'phone_number': up.phone_number,
+                'old_employee_code': up.old_employee_code,
+                'title': up.title,
+                'manager': up.manager,
+
+                # NEW: load employee_code, is_ldap_user
+                'employee_code': up.employee_code,
+                'is_ldap_user': up.is_ldap_user,
             })
 
     def get_manager_label(self, obj):
@@ -157,7 +177,11 @@ class UserForm(UserChangeForm):
                 'phone_number': self.cleaned_data.get('phone_number'),
                 'old_employee_code': self.cleaned_data.get('old_employee_code'),
                 'title': self.cleaned_data.get('title'),
-                'manager': self.cleaned_data.get('manager')  # This is now a UserProfile instance
+                'manager': self.cleaned_data.get('manager'),
+
+                # NEW: pass employee_code, is_ldap_user
+                'employee_code': self.cleaned_data.get('employee_code'),
+                'is_ldap_user': self.cleaned_data.get('is_ldap_user'),
             }
 
             try:
