@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'groups',
     'companies',
     'departments',
+    'settings_config',
+    
 ]
 
 MIDDLEWARE = [

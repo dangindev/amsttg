@@ -22,4 +22,5 @@ urlpatterns = [
      path('groups/', include('groups.urls')),  # Include the groups app URLs here
      path('companies/', include('companies.urls')), # Include the companies app URLs here
      path('departments/', include('departments.urls')), # Include the departments app URLs here
+     path('settings_config/', include('settings_config.urls.web')), # Include the settings app URLs here
 ]

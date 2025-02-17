@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">Settings</h1>
+
+<!-- Mục LDAP config -->
+<div class="card mb-3">
+  <div class="card-body">
+    <h5>LDAP Config</h5>
+    <p>Cài đặt LDAP server, bind DN, password...</p>
+    <a href="{% url 'ldap_list' %}" class="btn btn-primary">Go to LDAP Config</a>
+  </div>
+</div>
+
+<!-- Sau này thêm mục Email, System, ... -->
+{% endblock %}

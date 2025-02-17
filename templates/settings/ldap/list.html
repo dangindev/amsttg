@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h1 class="h3 mb-4 text-gray-800">LDAP Config List</h1>
+
+<a href="{% url 'ldap_create' %}" class="btn btn-primary mb-3">Create New</a>
+
+<div class="card">
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Server URI</th>
+          <th>Bind DN</th>
+          <th>Base DN</th>
+          <th>Updated</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in configs %}
+        <tr>
+          <td>{{ c.server_uri }}</td>
+          <td>{{ c.bind_dn }}</td>
+          <td>{{ c.base_dn }}</td>
+          <td>{{ c.updated_at|date:"Y-m-d H:i" }}</td>
+          <td>
+            <a href="{% url 'ldap_edit' c.id %}" class="btn btn-sm btn-info">Edit</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">No LDAP config found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
